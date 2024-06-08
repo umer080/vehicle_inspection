@@ -1,0 +1,11 @@
+{% for result in results %}
+<tr>
+    <td>{{ result.model_year }}</td>
+    <td>{{ result.make }}</td>
+    <td>{{ result.model }}</td>
+    <td>{{ result.rejection_percentage }}</td>
+    <td>{{ result.reason_1 }}</td>
+    <td>{{ result.reason_2 }}</td>
+    <td>{{ result.reason_3 }}</td>
+</tr>
+{% endfor %}

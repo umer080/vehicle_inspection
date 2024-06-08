@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Vehicle Data</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Upload Vehicle Data</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Search</h2>
+    <input type="text" id="search" placeholder="Search...">
+    <table id="results-table">
+        <thead>
+            <tr>
+                <th>Model Year</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Rejection Percentage</th>
+                <th>Reason 1</th>
+                <th>Reason 2</th>
+                <th>Reason 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inspection in inspections %}
+            <tr>
+                <td>{{ inspection.model_year }}</td>
+                <td>{{ inspection.make }}</td>
+                <td>{{ inspection.model }}</td>
+                <td>{{ inspection.rejection_percentage }}</td>
+                <td>{{ inspection.reason_1 }}</td>
+                <td>{{ inspection.reason_2 }}</td>
+                <td>{{ inspection.reason_3 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $('#search').on('keyup', function() {
+                var query = $(this).val();
+                $.ajax({
+                    url: '{% url "search" %}',
+                    data: {'query': query},
+                    success: function(data) {
+                        $('#results-table tbody').html(data.html);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
